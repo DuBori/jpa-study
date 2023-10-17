@@ -20,20 +20,14 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member1 = em.find(Member.class, 3L);
-            Member member2 = em.find(Member.class, 3L);
+            Member member1 = new Member(4L, "hi");
+            Member member2 = new Member(5L, "hi");
 
-            /* 1차 캐시 메모리 조회 -> db조회*/
-            System.out.println("member1 = " + member1);
-            /* 1차 캐시 메모리 조회*/
-            System.out.println("member2 = " + member2);
-
-            /*영속성 엔티티 동일 트랜잭션 내에 동일성 보장*/
-            System.out.println("member2.equals(member1) = " + member2.equals(member1));
-
+            em.persist(member1);
+            em.persist(member2);
 
             /*
-            *default 쿼리 보내는 시점
+            * default 쿼리 보내는 시점
             * EntityManger에 새로운 객체를 넣을시에
             * 1차 캐시 메모리에 저장하며, sql 쓰기 지연 메모리에
             * 해당 쿼리문을 저장하고
