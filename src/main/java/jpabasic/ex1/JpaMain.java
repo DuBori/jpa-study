@@ -20,12 +20,8 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member1 = new Member(4L, "hi");
-            Member member2 = new Member(5L, "hi");
-
-            em.persist(member1);
-            em.persist(member2);
-
+            Member member = em.find(Member.class, 5L);
+            member.updateName("changeName");
             /*
             * default 쿼리 보내는 시점
             * EntityManger에 새로운 객체를 넣을시에
