@@ -8,6 +8,8 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Objects;
+
 /*
     테이블 이름과 Entity의 이름이 동일한건 관례
     테이블의 이름과 Entity의 이름을 다르게 가져갈 때
@@ -32,4 +34,16 @@ public class Member {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Member)) return false;
+        Member member = (Member) o;
+        return Objects.equals(getId(), member.getId()) && Objects.equals(getName(), member.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
+    }
 }
