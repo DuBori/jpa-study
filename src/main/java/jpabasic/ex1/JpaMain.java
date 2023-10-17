@@ -22,6 +22,8 @@ public class JpaMain {
         try {
             Member member = em.find(Member.class, 1L);
             List<Member> resultList = em.createQuery("select m from Member as m", Member.class)
+                    .setFirstResult(1)/*PageNation*/
+                    .setMaxResults(10)/*PageNation*/
                     .getResultList();
             resultList.forEach(System.out::println);
             transaction.commit();
