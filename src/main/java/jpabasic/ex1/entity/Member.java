@@ -3,6 +3,7 @@ package jpabasic.ex1.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,11 +20,16 @@ import javax.persistence.Id;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Member {
     @Id
 
     private Long id;
 
     private String name;
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 
 }
