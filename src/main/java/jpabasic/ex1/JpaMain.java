@@ -21,7 +21,12 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = new Member(1L, "박정현", 27, RoleType.ADMIN, null, null, null, 0);
+            Member member = new Member();
+            member.updateName("sequenceTest");
+            /*
+                영속성 컨텍스트의 특성으로 인해 아래에서 sql 실행
+                그래야 시퀀스 값을 알아서 1차 캐시 안에 보관함
+            */
             em.persist(member);
             System.out.println("member = " + member);
             transaction.commit();
