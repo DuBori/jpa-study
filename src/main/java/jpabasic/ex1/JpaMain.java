@@ -20,15 +20,19 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = em.find(Member.class, 5L);
-            member.updateName("changeName");
+            Member member = em.find(Member.class, 6L);
+            System.out.println("member = " + member);
+            member.updateName("히히");
             /*
-            * default 쿼리 보내는 시점
-            * EntityManger에 새로운 객체를 넣을시에
-            * 1차 캐시 메모리에 저장하며, sql 쓰기 지연 메모리에
-            * 해당 쿼리문을 저장하고
-            * 아래 해당 메서드가 실행될 때 쿼리들이 모아 실행된다.
+            * 준영속 상태 : 영속성 컨텍스트
+            *             1차 캐시에 없는 상태
+            * -> 조회만 하고 변경값에 대한 객체를 준영속상태로 만들어
+            *   기존 스냅샷과 달라졌지만 아예 제거해서 변경대상에 포함되지
+            *   않게됨.
             * */
+            em.detach(member);
+            /*em.clear(); - > 1차캐시 모두 클리어 */
+            /*em.close(); - > 영속성 컨텍스트 종료 */
             transaction.commit();
         }catch (Exception e) {
             transaction.rollback();
