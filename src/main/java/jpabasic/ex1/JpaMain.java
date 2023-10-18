@@ -1,6 +1,7 @@
 package jpabasic.ex1;
 
 import jpabasic.ex1.entity.Member;
+import jpabasic.ex1.enums.RoleType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,19 +21,9 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = em.find(Member.class, 6L);
+            Member member = new Member(1L, "박정현", 27, RoleType.ADMIN, null, null, null, 0);
+            em.persist(member);
             System.out.println("member = " + member);
-            member.updateName("히히");
-            /*
-            * 준영속 상태 : 영속성 컨텍스트
-            *             1차 캐시에 없는 상태
-            * -> 조회만 하고 변경값에 대한 객체를 준영속상태로 만들어
-            *   기존 스냅샷과 달라졌지만 아예 제거해서 변경대상에 포함되지
-            *   않게됨.
-            * */
-            em.detach(member);
-            /*em.clear(); - > 1차캐시 모두 클리어 */
-            /*em.close(); - > 영속성 컨텍스트 종료 */
             transaction.commit();
         }catch (Exception e) {
             transaction.rollback();
