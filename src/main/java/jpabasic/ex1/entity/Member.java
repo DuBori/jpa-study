@@ -12,22 +12,29 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@SequenceGenerator(name = "member_seq_generator",
-        sequenceName = "member_seq",
-        initialValue = 1,
-        allocationSize = 50)
 public class Member {
-    //    pk 자동 할당
     @Id
-    //Auto db 관련 시퀀스 알아서 맞춰줌
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "member_seq_generator")
+    @GeneratedValue
     private Long id;
-    @Column(name = "name", nullable = false)
-    private String username;
+    @Column(nullable = false)
+    private String name;
+    private String city;
+    private String street;
+    private String zipCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
+    public Member(String name, String city, String street, String zipCode, Team team) {
+        this.name = name;
+        this.city = city;
+        this.street = street;
+        this.zipCode = zipCode;
+        this.team = team;
+    }
 
     public void updateName(String name) {
-        this.username = name;
+        this.name = name;
     }
 
 

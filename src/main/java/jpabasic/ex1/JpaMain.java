@@ -1,6 +1,7 @@
 package jpabasic.ex1;
 
 import jpabasic.ex1.entity.Member;
+import jpabasic.ex1.entity.Team;
 import jpabasic.ex1.enums.RoleType;
 
 import javax.persistence.EntityManager;
@@ -14,21 +15,24 @@ public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory enf = Persistence.createEntityManagerFactory("test");
 
-        /*하나의 트랜잭션 단위 EntityManger*/
         EntityManager em = enf.createEntityManager();
 
-        /*DB Connection 하나 받는 느낌*/
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = new Member();
-            member.updateName("sequenceTest");
-            /*
-                영속성 컨텍스트의 특성으로 인해 아래에서 sql 실행
-                그래야 시퀀스 값을 알아서 1차 캐시 안에 보관함
-            */
-            em.persist(member);
-            System.out.println("member = " + member);
+            Team kia = new Team("KIA");
+            em.persist(kia);
+
+            Member o = new Member("정현", "서울", "독산", "어딘가", kia);
+            em.persist(o);
+
+            em.flush();
+            em.clear();
+
+            Member member = em.find(Member.class, o.getId());
+            Team team = member.getTeam();
+            System.out.println("team = " + team);
+
             transaction.commit();
         }catch (Exception e) {
             transaction.rollback();
