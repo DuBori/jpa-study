@@ -2,10 +2,7 @@ package jpabasic.ex1.entity;
 
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -14,11 +11,16 @@ public class OrderItem {
     @GeneratedValue
     @Column(name = "ORDER_ITEM_ID")
     private Long id;
-    @Column(name = "ORDER_ID")
-    private Long orderId;
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
+    @ManyToOne
     @Column(name = "ITEM_ID")
-    private Long itemId;
+    private Item itemId;
     private int orderPrice;
     private int count;
 
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }

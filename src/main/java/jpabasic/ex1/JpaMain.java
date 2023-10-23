@@ -1,6 +1,8 @@
 package jpabasic.ex1;
 
 import jpabasic.ex1.entity.Member;
+import jpabasic.ex1.entity.Order;
+import jpabasic.ex1.entity.OrderItem;
 import jpabasic.ex1.entity.Team;
 import jpabasic.ex1.enums.RoleType;
 
@@ -20,19 +22,8 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Team kia = new Team("KIA");
-            em.persist(kia);
-
-            Member o = new Member("정현", "서울", "독산", "어딘가", kia);
-            em.persist(o);
-
-            em.flush();
-            em.clear();
-
-            Member member = em.find(Member.class, o.getId());
-            List<Member> members = member.getTeam().getMembers();
-            members.forEach(it -> System.out.println("it.getName() = " + it.getName()));
-
+            Order order = new Order();
+            order.addOrderItem(new OrderItem());
             transaction.commit();
         }catch (Exception e) {
             transaction.rollback();

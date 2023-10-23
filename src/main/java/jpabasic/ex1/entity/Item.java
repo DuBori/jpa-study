@@ -2,6 +2,7 @@ package jpabasic.ex1.entity;
 
 import lombok.Getter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 public class Item {
     @Id
     @GeneratedValue
+    @Column(name = "ITEM_ID")
     private Long id;
     private String name;
     private int price;
