@@ -25,9 +25,9 @@ public class JpaMain {
             Order order = new Order();
             order.addOrderItem(new OrderItem());
             transaction.commit();
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
-        }finally {
+        } finally {
             em.close();
         }
         enf.close();

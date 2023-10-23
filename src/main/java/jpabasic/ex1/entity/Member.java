@@ -24,7 +24,6 @@ public class Member {
     private String street;
     private String zipCode;
 
-
     public void updateName(String name) {
         this.name = name;
     }
