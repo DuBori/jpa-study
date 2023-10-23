@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Member {
     @Id
     @GeneratedValue
