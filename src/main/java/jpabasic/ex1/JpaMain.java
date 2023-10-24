@@ -20,8 +20,6 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-
-
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();

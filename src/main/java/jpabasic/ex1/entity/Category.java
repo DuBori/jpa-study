@@ -22,7 +22,6 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "ITEM_ID")
-    private Item item;
+    @OneToMany(mappedBy = "category")
+    private List<CategoryItem> categoryItems = new ArrayList<>();
 }

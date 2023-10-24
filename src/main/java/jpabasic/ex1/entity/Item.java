@@ -22,6 +22,5 @@ public class Item {
     private Delivery delivery;
 
     @OneToMany(mappedBy = "item")
-    private List<Category> categories = new ArrayList<>();
-
+    private List<CategoryItem> categories = new ArrayList<>();
 }
