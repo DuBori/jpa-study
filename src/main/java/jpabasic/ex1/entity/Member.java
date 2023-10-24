@@ -24,6 +24,10 @@ public class Member {
     private String street;
     private String zipCode;
 
+    @OneToOne
+    @JoinColumn(name = "LOCK_ID")
+    private Locker locker;
+
     public void updateName(String name) {
         this.name = name;
     }

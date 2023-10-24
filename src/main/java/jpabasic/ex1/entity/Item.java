@@ -2,10 +2,9 @@ package jpabasic.ex1.entity;
 
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,5 +17,11 @@ public class Item {
     private int price;
     private int stock;
 
+    @ManyToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    private Delivery delivery;
+
+    @OneToMany(mappedBy = "item")
+    private List<Category> categories = new ArrayList<>();
 
 }
