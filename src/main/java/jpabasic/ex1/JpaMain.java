@@ -1,9 +1,6 @@
 package jpabasic.ex1;
 
-import jpabasic.ex1.entity.Member;
-import jpabasic.ex1.entity.Order;
-import jpabasic.ex1.entity.OrderItem;
-import jpabasic.ex1.entity.Team;
+import jpabasic.ex1.entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +17,15 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
+            Movie movie = new Movie("봉준호", "원빈", "바람과함께사라지다.");
+            em.persist(movie);
+
+            em.flush();
+            em.clear();
+
+            Movie movie1 = em.find(Movie.class, movie.getId());
+            System.out.println("movie1 = " + movie1);
+
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
