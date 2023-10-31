@@ -30,10 +30,14 @@ public class Member extends BaseEntity{
         name = DUMMY;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
+    public Member(String name, Team team) {
+        this.name = name;
+        this.team = team;
+    }
 
     @Override
     public String toString() {

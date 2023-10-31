@@ -20,7 +20,7 @@ public abstract class Item extends BaseEntity {
     private String name;
     private int price;
     private int stock;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DELIVERY_ID")
     private Delivery delivery;
     @OneToMany(mappedBy = "item")

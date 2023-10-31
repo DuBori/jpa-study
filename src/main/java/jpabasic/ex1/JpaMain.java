@@ -17,19 +17,19 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = new Member("정현");
+            Team team1 = new Team("kia");
+            em.persist(team1);
+
+            Member member = new Member("정현", team1);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            Member findMember = em.getReference(Member.class, member.getId());
-            boolean isLoaded = emf.getPersistenceUnitUtil().isLoaded(findMember);
-            System.out.println("isLoaded = " + isLoaded);
-            findMember.getTeam();
-            isLoaded = emf.getPersistenceUnitUtil().isLoaded(findMember);
-            System.out.println("isLoaded = " + isLoaded);
-
+            Member findMember = em.find(Member.class, member.getId());
+            System.out.println("findMember = " + findMember.getClass());
+            findMember.getTeam().getName();
+            System.out.println("findMember = " + findMember.getClass());
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
