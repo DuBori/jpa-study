@@ -10,19 +10,37 @@ import javax.persistence.Persistence;
 public class JpaMain {
 
     public static void main(String[] args) {
-        EntityManagerFactory enf = Persistence.createEntityManagerFactory("test");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("test");
 
-        EntityManager em = enf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
 
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
+            Member member = new Member("정현");
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            Member findMember = em.getReference(Member.class, member.getId());
+            boolean isLoaded = emf.getPersistenceUnitUtil().isLoaded(findMember);
+            System.out.println("isLoaded = " + isLoaded);
+            findMember.getTeam();
+            isLoaded = emf.getPersistenceUnitUtil().isLoaded(findMember);
+            System.out.println("isLoaded = " + isLoaded);
+
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
         } finally {
             em.close();
         }
-        enf.close();
+        emf.close();
     }
+
+    private static void test(Member member, Member member2) {
+
+    }
+
 }

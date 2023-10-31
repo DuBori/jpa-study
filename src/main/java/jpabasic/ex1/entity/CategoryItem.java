@@ -3,7 +3,7 @@ package jpabasic.ex1.entity;
 import javax.persistence.*;
 
 @Entity
-public class CategoryItem {
+public class CategoryItem extends BaseEntity{
     @Id
     @GeneratedValue
     @Column(name = "CATEGORY_ITEM_ID")
