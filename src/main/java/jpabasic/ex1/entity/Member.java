@@ -18,9 +18,10 @@ public class Member extends BaseEntity{
     private Long id;
     @Column(nullable = false)
     private final String name;
-    private String city;
-    private String street;
-    private String zipCode;
+    @Embedded
+    private Period period;
+    @Embedded
+    private Address address;
 
 //    @OneToOne
 //    @JoinColumn(name = "LOCK_ID")
@@ -39,14 +40,9 @@ public class Member extends BaseEntity{
         this.team = team;
     }
 
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                '}';
+    public Member(Period period, Address address) {
+        this.name = DUMMY;
+        this.period = period;
+        this.address = address;
     }
 }
