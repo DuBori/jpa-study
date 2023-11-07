@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,12 +24,14 @@ public class Member extends BaseEntity{
     private final String name;
     @Embedded
     private Period period;
-    @Embedded
-    private Address address;
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD" ,joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
 
-//    @OneToOne
-//    @JoinColumn(name = "LOCK_ID")
-//    private Locker locker;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MEMBER_ID", updatable = false, insertable = false)
+    private List<AddressEntity> addressEntities = new ArrayList<>();
 
     public Member() {
         name = DUMMY;
@@ -40,9 +46,19 @@ public class Member extends BaseEntity{
         this.team = team;
     }
 
-    public Member(Period period, Address address) {
+    public Member(Period period, AddressEntity addressEntity) {
         this.name = DUMMY;
         this.period = period;
-        this.address = address;
+        this.addressEntities.add(addressEntity);
     }
+
+    public Member(AddressEntity addressEntity) {
+        this.name = DUMMY;
+        this.addressEntities.add(addressEntity);
+    }
+
+
+    /*public void updateHomeAddress(Address address) {
+        this.address = address;
+    }*/
 }

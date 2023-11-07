@@ -17,8 +17,28 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = new Member(new Period(), new Address("hi", "hi", "hi"));
+            Member member = new Member(new AddressEntity("hi","hi","hi"));
+
+            member.getFavoriteFoods().add("라면");
+            member.getFavoriteFoods().add("컵라면");
+            member.getFavoriteFoods().add("라면컵");
+
+            member.getAddressEntities().add(new AddressEntity("hi2","hi","hi"));
+            member.getAddressEntities().add(new AddressEntity("hi3","hi","hi"));
+
             em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+
+            findMember.getFavoriteFoods().remove("라면");
+            findMember.getFavoriteFoods().add("라볶이");
+
+            findMember.getAddressEntities().remove(new AddressEntity("hi2","hi","hi"));
+            member.getAddressEntities().add(new AddressEntity("hi5","hi5","hi5"));
+
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
