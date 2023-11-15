@@ -1,64 +1,45 @@
 package jpabasic.ex1.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
-@RequiredArgsConstructor
-public class Member extends BaseEntity{
-    public static final String DUMMY = "아무개";
+@NoArgsConstructor
+@NamedQuery(
+        name = "Member.findByUsername",
+        query = "select m from Member m where m.username = :username"
+)
+public class Member {
     @Id
     @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
-    @Column(nullable = false)
-    private final String name;
-    @Embedded
-    private Period period;
-    @ElementCollection
-    @CollectionTable(name = "FAVORITE_FOOD" ,joinColumns = @JoinColumn(name = "MEMBER_ID"))
-    @Column(name = "FOOD_NAME")
-    private Set<String> favoriteFoods = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "MEMBER_ID", updatable = false, insertable = false)
-    private List<AddressEntity> addressEntities = new ArrayList<>();
-
-    public Member() {
-        name = DUMMY;
-    }
-
+    private String username;
+    private int age;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
-    public Member(String name, Team team) {
-        this.name = name;
+    public Member(String username, int age, Team team) {
+        this.username = username;
+        this.age = age;
         this.team = team;
+        team.getMembers().add(this);
     }
 
-    public Member(Period period, AddressEntity addressEntity) {
-        this.name = DUMMY;
-        this.period = period;
-        this.addressEntities.add(addressEntity);
+    public void updateName(String username) {
+        this.username = username;
     }
 
-    public Member(AddressEntity addressEntity) {
-        this.name = DUMMY;
-        this.addressEntities.add(addressEntity);
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                '}';
     }
-
-
-    /*public void updateHomeAddress(Address address) {
-        this.address = address;
-    }*/
 }

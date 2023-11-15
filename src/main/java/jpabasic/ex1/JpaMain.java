@@ -2,10 +2,12 @@ package jpabasic.ex1;
 
 import jpabasic.ex1.entity.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.Optional;
 
 public class JpaMain {
 
@@ -17,27 +19,26 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = new Member(new AddressEntity("hi","hi","hi"));
 
-            member.getFavoriteFoods().add("라면");
-            member.getFavoriteFoods().add("컵라면");
-            member.getFavoriteFoods().add("라면컵");
+            Team team = new Team("team1");
+            em.persist(team);
 
-            member.getAddressEntities().add(new AddressEntity("hi2","hi","hi"));
-            member.getAddressEntities().add(new AddressEntity("hi3","hi","hi"));
+            Team team2 = new Team("team2");
+            em.persist(team2);
 
+            Member member = new Member("mem1", 10, team);
             em.persist(member);
+            Member member2 = new Member("mem2", 11, team);
+            em.persist(member2);
+            Member member3 = new Member("mem3", 12, team2);
+            em.persist(member3);
 
             em.flush();
             em.clear();
-
-            Member findMember = em.find(Member.class, member.getId());
-
-            findMember.getFavoriteFoods().remove("라면");
-            findMember.getFavoriteFoods().add("라볶이");
-
-            findMember.getAddressEntities().remove(new AddressEntity("hi2","hi","hi"));
-            member.getAddressEntities().add(new AddressEntity("hi5","hi5","hi5"));
+            TypedQuery<Member> memberTypedQuery = em.createNamedQuery("Member.findByUsername", Member.class)
+                    .setParameter("username", "mem1");
+            Member singleResult = memberTypedQuery.getSingleResult();
+            System.out.println("singleResult = " + singleResult);
 
             transaction.commit();
         } catch (Exception e) {
@@ -46,10 +47,6 @@ public class JpaMain {
             em.close();
         }
         emf.close();
-    }
-
-    private static void test(Member member, Member member2) {
-
     }
 
 }
